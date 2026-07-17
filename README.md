@@ -35,30 +35,30 @@ This project follows clean engineering principles to ensure the codebase remains
 ```
 
 1. **Gradle Multi-Module Layout**:
-   - `:sharedLogic`: Houses the core library written in pure Kotlin, structured according to **Clean Architecture** patterns:
-     - **Domain Layer**: Contains shared models ([Transaction](file:///Users/Ifechukwu/Work/Kmp/Cashi%20ChallengeV1/sharedLogic/src/commonMain/kotlin/com/cashi/cashichallengev1/domain/model/Transaction.kt), [PaymentRequest](file:///Users/Ifechukwu/Work/Kmp/Cashi%20ChallengeV1/sharedLogic/src/commonMain/kotlin/com/cashi/cashichallengev1/domain/model/PaymentRequest.kt)), [TransactionRepository](file:///Users/Ifechukwu/Work/Kmp/Cashi%20ChallengeV1/sharedLogic/src/commonMain/kotlin/com/cashi/cashichallengev1/domain/repository/TransactionRepository.kt) interface, and Use Cases (`ProcessPaymentUseCase`, `ObserveTransactionsUseCase`) holding core business logic.
-     - **Data Layer**: Contains Ktor client service [PaymentService](file:///Users/Ifechukwu/Work/Kmp/Cashi%20ChallengeV1/sharedLogic/src/commonMain/kotlin/com/cashi/cashichallengev1/data/network/PaymentService.kt) and expect/actual `PlatformFirestore` data wrapper sources.
-     - **Presentation Layer**: Contains the unidirectional MVI state machine (`PaymentViewModel`, `PaymentState`, `PaymentIntent`).
-   - `:sharedUI`: Houses Compose Multiplatform UI components (like the form, lists, and theme styling).
-   - `:androidApp`: Launches the Android app, registers the `Application` class, and configures the DI container.
-   - `:server`: A separate Kotlin JVM module hosting a Ktor Netty HTTP server on port `8080`.
+    - `:sharedLogic`: Houses the core library written in pure Kotlin, structured according to **Clean Architecture** patterns:
+        - **Domain Layer**: Contains shared models ([Transaction](file:///Users/Ifechukwu/Work/Kmp/Cashi%20ChallengeV1/sharedLogic/src/commonMain/kotlin/com/cashi/cashichallengev1/domain/model/Transaction.kt), [PaymentRequest](file:///Users/Ifechukwu/Work/Kmp/Cashi%20ChallengeV1/sharedLogic/src/commonMain/kotlin/com/cashi/cashichallengev1/domain/model/PaymentRequest.kt)), [TransactionRepository](file:///Users/Ifechukwu/Work/Kmp/Cashi%20ChallengeV1/sharedLogic/src/commonMain/kotlin/com/cashi/cashichallengev1/domain/repository/TransactionRepository.kt) interface, and Use Cases (`ProcessPaymentUseCase`, `ObserveTransactionsUseCase`) holding core business logic.
+        - **Data Layer**: Contains Ktor client service [PaymentService](file:///Users/Ifechukwu/Work/Kmp/Cashi%20ChallengeV1/sharedLogic/src/commonMain/kotlin/com/cashi/cashichallengev1/data/network/PaymentService.kt) and expect/actual `PlatformFirestore` data wrapper sources.
+        - **Presentation Layer**: Contains the unidirectional MVI state machine (`PaymentViewModel`, `PaymentState`, `PaymentIntent`).
+    - `:sharedUI`: Houses Compose Multiplatform UI components (like the form, lists, and theme styling).
+    - `:androidApp`: Launches the Android app, registers the `Application` class, and configures the DI container.
+    - `:server`: A separate Kotlin JVM module hosting a Ktor Netty HTTP server on port `8080`.
 
 2. **Full-Stack Kotlin Code Sharing**:
-   - Configured `:sharedLogic` to support a `jvm()` compiler target.
-   - The Ktor `:server` depends on `:sharedLogic` directly. This enables **direct code sharing** of the domain models and validation rules (`PaymentValidator`). If validation rules change, they remain in sync across client and server at compile-time.
+    - Configured `:sharedLogic` to support a `jvm()` compiler target.
+    - The Ktor `:server` depends on `:sharedLogic` directly. This enables **direct code sharing** of the domain models and validation rules (`PaymentValidator`). If validation rules change, they remain in sync across client and server at compile-time.
 
 3. **MVI (Model-View-Intent) Presentation**:
-   - `PaymentViewModel` exposes a single, immutable `StateFlow<PaymentState>` to the Compose views.
-   - View actions are modeled as explicit `PaymentIntent` objects (e.g. `SubmitPayment`, `EmailChanged`). This guarantees unidirectional data flow (UDF), making states predictable and easy to unit test.
+    - `PaymentViewModel` exposes a single, immutable `StateFlow<PaymentState>` to the Compose views.
+    - View actions are modeled as explicit `PaymentIntent` objects (e.g. `SubmitPayment`, `EmailChanged`). This guarantees unidirectional data flow (UDF), making states predictable and easy to unit test.
 
 4. **KMP expect/actual Wrapper for Native SDKs**:
-   - Rather than forcing third-party KMP database libraries, I declared `expect class PlatformFirestore` implementing the `TransactionRepository` interface in `commonMain` data layer.
-   - In `androidMain`, I implemented `actual class PlatformFirestore` calling the official Android Firebase Firestore SDK.
-   - In `jvmMain` and `iosMain`, I implemented mock in-memory database fallback wrappers, allowing the server and other targets to compile and execute instantly without target dependency errors.
+    - Rather than forcing third-party KMP database libraries, I declared `expect class PlatformFirestore` implementing the `TransactionRepository` interface in `commonMain` data layer.
+    - In `androidMain`, I implemented `actual class PlatformFirestore` calling the official Android Firebase Firestore SDK.
+    - In `jvmMain` and `iosMain`, I implemented mock in-memory database fallback wrappers, allowing the server and other targets to compile and execute instantly without target dependency errors.
 
 5. **Koin Dependency Injection**:
-   - Common services, use cases, and target-specific platforms are injected using Koin.
-   - The Koin configuration accepts a runtime `baseUrl`, letting the Android emulator (`10.0.2.2`), iOS emulator (`localhost`), and unit tests configure network endpoints dynamically.
+    - Common services, use cases, and target-specific platforms are injected using Koin.
+    - The Koin configuration accepts a runtime `baseUrl`, letting the Android emulator (`10.0.2.2`), iOS emulator (`localhost`), and unit tests configure network endpoints dynamically.
 
 ---
 
@@ -94,15 +94,15 @@ Depending on your target device, you must configure the Ktor server `baseUrl` in
 If you want to run the app wirelessly:
 1. Connect both your computer and your physical Android phone to the **same Wi-Fi network**.
 2. Find your computer's local IP address:
-   * **macOS**: Run `ipconfig getifaddr en0` in the terminal.
-   * **Windows**: Run `ipconfig` in the Command Prompt.
-   *(e.g., `192.168.1.15`)*
+    * **macOS**: Run `ipconfig getifaddr en0` in the terminal.
+    * **Windows**: Run `ipconfig` in the Command Prompt.
+      *(e.g., `192.168.1.15`)*
 3. **CashiApplication.kt Configuration**: Use `http://<YOUR_COMPUTER_IP>:8080`:
   ```kotlin
   modules(
-      commonModule(baseUrl = "http://192.168.1.15:8080"), // Replace with your IP
-      androidModule
-  )
+    commonModule(baseUrl = "http://192.168.1.15:8080"), // Replace with your IP
+    androidModule
+)
   ```
 
 *(Note: `AndroidManifest.xml` has `usesCleartextTraffic="true"` configured, allowing HTTP cleartext connections to local dev IP ranges).*
@@ -115,7 +115,7 @@ To compile and package the optimized, minified production release APK:
    ./gradlew :androidApp:assembleRelease
    ```
 3. The generated release APK will be output to:
-   📂 `androidApp/build/outputs/apk/release/androidApp-release.apk` 
+   📂 `androidApp/build/outputs/apk/release/androidApp-release.apk`
    *(Or `androidApp-release-unsigned.apk` if signing properties were omitted).*
 
 #### Keystore configurations layout inside `local.properties`:
@@ -140,7 +140,7 @@ Runs JUnit tests for validations and network mapping on the local JVM:
 ### 2. Cucumber Behavior-Driven Development (BDD)
 Gherkin syntax is used to define behavioral rules under `sharedLogic/src/androidHostTest/resources/features/payment.feature` and run step definitions in `PaymentSteps.kt`. Run the tests via:
 ```bash
-./gradlew :sharedLogic:testReleaseUnitTest --tests "com.cashi.cashichallengev1.bdd.RunBddTest"
+./gradlew :sharedLogic:testAndroidHostTest --tests "com.cashi.cashichallengev1.bdd.RunBddTest"
 ```
 
 ### 3. JMeter Performance testing
@@ -155,28 +155,28 @@ The JMeter script is configured in `jmeter/payments_performance.jmx`.
 ### 4. Appium Mobile UI Automation
 The Python automation script is in `testing/payment_ui_test.py`. It uses UI test tags mapped on Compose inputs (`email_input`, `amount_input`, `submit_button`).
 - **Prerequisites Setup**:
-  1. Install Appium Server globally:
-     ```bash
-     npm install -g appium
-     ```
-  2. Install the Android automation driver:
-     ```bash
-     appium driver install uiautomator2
-     ```
-  3. Install the Python automation test dependencies:
-     ```bash
-     pip install Appium-Python-Client selenium
-     ```
+    1. Install Appium Server globally:
+       ```bash
+       npm install -g appium
+       ```
+    2. Install the Android automation driver:
+       ```bash
+       appium driver install uiautomator2
+       ```
+    3. Install the Python automation test dependencies:
+       ```bash
+       pip install Appium-Python-Client selenium
+       ```
 - **Execution Steps**:
-  1. Compile and install the app on your running Android Emulator:
-     ```bash
-     ./gradlew :androidApp:installDebug
-     ```
-  2. Open a separate terminal window and start the Appium server:
-     ```bash
-     appium
-     ```
-  3. Run the python automation test script:
-     ```bash
-     python testing/payment_ui_test.py
-     ```
+    1. Compile and install the app on your running Android Emulator:
+       ```bash
+       ./gradlew :androidApp:installDebug
+       ```
+    2. Open a separate terminal window and start the Appium server:
+       ```bash
+       appium
+       ```
+    3. Run the python automation test script:
+       ```bash
+       python testing/payment_ui_test.py
+       ```
