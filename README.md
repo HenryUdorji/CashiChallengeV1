@@ -52,9 +52,9 @@ This project follows clean engineering principles to ensure the codebase remains
    - View actions are modeled as explicit `PaymentIntent` objects (e.g. `SubmitPayment`, `EmailChanged`). This guarantees unidirectional data flow (UDF), making states predictable and easy to unit test.
 
 4. **KMP expect/actual Wrapper for Native SDKs**:
-   - Rather than forcing third-party KMP database libraries, we declared `expect class PlatformFirestore` implementing the `TransactionRepository` interface in `commonMain` data layer.
-   - In `androidMain`, we implement `actual class PlatformFirestore` calling the official Android Firebase Firestore SDK.
-   - In `jvmMain` and `iosMain`, we implement mock in-memory database fallback wrappers, allowing the server and other targets to compile and execute instantly without target dependency errors.
+   - Rather than forcing third-party KMP database libraries, I declared `expect class PlatformFirestore` implementing the `TransactionRepository` interface in `commonMain` data layer.
+   - In `androidMain`, I implemented `actual class PlatformFirestore` calling the official Android Firebase Firestore SDK.
+   - In `jvmMain` and `iosMain`, I implemented mock in-memory database fallback wrappers, allowing the server and other targets to compile and execute instantly without target dependency errors.
 
 5. **Koin Dependency Injection**:
    - Common services, use cases, and target-specific platforms are injected using Koin.
@@ -138,7 +138,7 @@ Runs JUnit tests for validations and network mapping on the local JVM:
 ```
 
 ### 2. Cucumber Behavior-Driven Development (BDD)
-We use Gherkin syntax to define behavioral rules under `sharedLogic/src/androidHostTest/resources/features/payment.feature` and run step definitions in `PaymentSteps.kt`. Run the tests via:
+Gherkin syntax is used to define behavioral rules under `sharedLogic/src/androidHostTest/resources/features/payment.feature` and run step definitions in `PaymentSteps.kt`. Run the tests via:
 ```bash
 ./gradlew :sharedLogic:testReleaseUnitTest --tests "com.cashi.cashichallengev1.bdd.RunBddTest"
 ```
