@@ -9,9 +9,15 @@ This is my implementation of the Cashi Mobile App Challenge V1. It is built as a
 Below is a recording showing the payment flows, MVI view state transitions, and real-time Firestore collection synchronizations:
 
 <div style="text-align: center;">
-  <video src="demo/cashi_demo.mp4" width="320" controls autoplay loop muted>
+  <video src="https://github.com/HenryUdorji/CashiChallengeV1/raw/refs/heads/main/demo/cashi_demo.mp4" width="320" controls autoplay loop muted>
     Your browser does not support the video tag.
   </video>
+  <br>
+  <p>
+    <strong>🎥 Demo Video Playback:</strong><br>
+    If the inline video player does not render in your IDE previewer, you can open and watch the video directly via its public link:<br>
+    👉 <strong>[Play Cashi Demo Video (GitHub Link)](https://github.com/HenryUdorji/CashiChallengeV1/raw/refs/heads/main/demo/cashi_demo.mp4)</strong> 👈
+  </p>
 </div>
 
 ---
