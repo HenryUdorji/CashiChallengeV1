@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "162027195509",
+    "project_id": "hash-concepts",
+    "storage_bucket": "hash-concepts.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162027195509:android:1088bb1b3eb886d50b3c3c",
+        "android_client_info": {
+          "package_name": "com.cashi.cashichallengev1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiZ6AaW5ehRhB1lWUO-kzCWrEdejTArEI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
